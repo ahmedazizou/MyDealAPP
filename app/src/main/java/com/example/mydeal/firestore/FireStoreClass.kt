@@ -1,6 +1,8 @@
 package com.example.mydeal.firestore
 
 import android.app.Activity
+import android.content.Context
+import android.content.SharedPreferences
 import android.util.Log
 import com.example.mydeal.activities.LoginActivity
 import com.example.mydeal.activities.RegisterActivity
@@ -68,6 +70,20 @@ private fun getCurrentUserId(): String {
                 // We have received the document snapshot which is converted into the User Data model object.
                 val user = document.toObject(User::class.java)!!
 
+                // We use it in order to save & edit data in it
+                val sharedPreferences = activity.getSharedPreferences(
+                    Constants.MYDEAL_PREFERENCES,
+                    Context.MODE_PRIVATE
+                )
+                val editor: SharedPreferences.Editor = sharedPreferences.edit()
+                editor.putString(
+                    Constants.LOGGED_IN_USERNAME,
+                    "${user.firstName} ${user.LastName}"
+                )
+                //to make sure we apply what is edited
+                editor.apply()
+
+
                 // Passing the result to the Login Activity.
                 when (activity) {
                     is LoginActivity -> {
@@ -75,7 +91,7 @@ private fun getCurrentUserId(): String {
                         activity.userLoginSuccess(user)
                     }
                 }
-                // END
+
             }
             .addOnFailureListener { e ->
                 // Hide the progress dialog if there is any error. And print the error in log.
@@ -92,6 +108,6 @@ private fun getCurrentUserId(): String {
                 )
             }
     }
-    // END
+
 
 }
