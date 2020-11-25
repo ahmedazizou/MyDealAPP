@@ -3,17 +3,13 @@
     <color name="colorPrimary">#192F28</color>
     <color name="colorPrimarySec">#f9aa8f</color>
     <color name="colorAccent">#192F28</color>
-
-
     <color name="colorThemelight">#192F28</color>
     <color name="colorOrange">#f9aa8f</color>
-
-
     <color name="colorBlack">#000000</color>
     <color name="colorWhite">#FFFFFF</color>
-
     <color name="colorBarError">#ED3A3A</color>
     <color name="colorBarSuccess">#1BE123</color>
+    <color name="colorGrey">#D3D1D1</color>
 
 
 </resources>

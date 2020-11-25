@@ -44,8 +44,14 @@
     <string name="loading">loading</string>
     //forget password layout
     <string name="title_forgot_password">FORGOT PASSWORD?</string>
-    <string name="forgot_password_title_description">Enter your e-mail we\'ll send you a link to reset your password</string>
+    <string name="forgot_password_title_description">Enter your e-mail we\'ll send you a link to reset your password
+    </string>
     <string name="btn_lbl_submit">Submit</string>
     <string name="email_url_sent">Email sent successfully to your email.</string>
-
+    // Profile Info
+    <string name="title_complete_profile">UPDATE PROFILE</string>
+    <string name="et_hint_mobile_number">Mobile Number</string>
+    <string name="rb_lbl_male">Male</string>
+    <string name="rb_lbl_female">Female</string>
+    <string name="btn_lbl_save">Save</string>
 </resources>

@@ -7,10 +7,9 @@
 
     <gradient
             android:angle="360"
-            android:endColor="@color/colorThemelight"
-            android:startColor="@color/colorOrange"
+            android:endColor="@color/colorOrange"
+            android:startColor="@color/colorPrimarySec"
             android:type="linear" />
 
     <corners android:radius="@dimen/button_background_radius" />
 </shape>
-        <!--END-->
