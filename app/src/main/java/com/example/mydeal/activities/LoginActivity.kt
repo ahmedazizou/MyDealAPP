@@ -2,13 +2,15 @@ package com.example.mydeal.activities
 
 import android.content.Intent
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
 import com.example.mydeal.R
+import com.example.mydeal.firestore.FireStoreClass
+import com.example.mydeal.models.User
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_login.*
 
@@ -18,7 +20,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         //This call the parent constructor
         super.onCreate(savedInstanceState)
-        // This is used to align the xml view to this clas
+        // This is used to align the xml view to this class
         setContentView(R.layout.activity_login)
 
         // This is used as a full screen operation to cover the status bar during the login action.
@@ -47,6 +49,21 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 //            val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
 //            startActivity(intent)
 //        }
+    }
+
+
+    fun userLoginSuccess(user: User) {
+
+        hideProgressDialog()
+
+        //print user details in log
+        Log.i("First Name ",user.firstName)
+        Log.i("Lat Name ",user.LastName)
+        Log.i("Email ",user.email)
+
+        //Redirect the user to main screen after he login.
+        startActivity(Intent(this@LoginActivity,MainActivity::class.java))
+        finish()
     }
 
     // Implement the View.OnClickListener and assign the onclick events of respective components in the onClick function.
@@ -105,19 +122,22 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
             showProgressDialog(resources.getString(R.string.loading))
 
             // Get the input from the user nad check trim space
-            val email = et_email.text.toString().trim() {it <= ' ' }
-            val password = et_password.text.toString().trim() {it <= ' ' }
+            val email = et_email.text.toString().trim {it <= ' ' }
+            val password = et_password.text.toString().trim {it <= ' ' }
 
             // login using FireBaseAuth
             FirebaseAuth.getInstance().signInWithEmailAndPassword(email,password)
                 .addOnCompleteListener{ task ->
 
-                    hideProgressDialog() // to hide loading page after task gives result
+                    // hideProgressDialog() // to hide loading page after task gives result
 
                     if (task.isSuccessful){
-                        // Send user to main activity
-                        showErrorSnackBar("You have been logged in successfully.", false)
+                        FireStoreClass().getUserDetails(this@LoginActivity)
+
+//                        // Send user to main activity
+//                        showErrorSnackBar("You have been logged in successfully.", false)
                     } else {
+                        hideProgressDialog()
                         showErrorSnackBar(task.exception!!.message.toString(),true)
                     }
                 }
