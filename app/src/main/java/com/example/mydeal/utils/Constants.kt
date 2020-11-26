@@ -2,6 +2,8 @@ package com.example.mydeal.utils
 
 //Constants are accessible hole application
 object Constants {
+    const val READ_STORAGE_PERMISSION_CODE: Int = 2
+
     //using in order to get users collection from our cloud firestore
     const val USERS: String = "users"
     const val MYDEAL_PREFERENCES: String = "MyDealPrefs"

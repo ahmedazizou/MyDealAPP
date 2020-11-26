@@ -54,4 +54,5 @@
     <string name="rb_lbl_male">Male</string>
     <string name="rb_lbl_female">Female</string>
     <string name="btn_lbl_save">Save</string>
+    <string name="read_storage_permission_denied">Permission denied.Please Allow it first</string>
 </resources>
