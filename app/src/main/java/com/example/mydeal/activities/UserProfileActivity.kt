@@ -1,7 +1,10 @@
 package com.example.mydeal.activities
 
 import android.Manifest
+import android.app.Activity
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -16,6 +19,7 @@ import kotlinx.android.synthetic.main.activity_register.et_email
 import kotlinx.android.synthetic.main.activity_register.et_first_name
 import kotlinx.android.synthetic.main.activity_register.et_last_name
 import kotlinx.android.synthetic.main.activity_user_profile.*
+import java.io.IOException
 
 class UserProfileActivity : BaseActivity(), View.OnClickListener{
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,8 +61,8 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener{
                         )
                         == PackageManager.PERMISSION_GRANTED
                     ) {
-
-                        showErrorSnackBar("You already have the storage permission.", false)
+                       // showErrorSnackBar("You already have the storage permission.", false)
+                        Constants.shopImagePicker(this)
                     } else {
 
                         /*Requests permissions to be granted to this application. These permissions
@@ -82,7 +86,8 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener{
             //If permission is granted
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                showErrorSnackBar("The storage permission is granted.", false)
+                //showErrorSnackBar("The storage permission is granted.", false)
+                Constants.shopImagePicker(this)
             } else {
                 //Displaying another toast if permission is not granted
                 Toast.makeText(
@@ -94,5 +99,28 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener{
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK){
+            if (requestCode == Constants.SELECT_IMAGE_REQUEST_CODE){
+                if (data != null){
+                    try {
+                        //Uri of seleted image from phone gallery.
+                        val selectedImageFileUri = data.data!!
+
+                        iv_user_photo.setImageURI(Uri.parse(selectedImageFileUri.toString()))
+                    } catch (e: IOException){
+                        e.printStackTrace()
+                        Toast.makeText(
+                            this@UserProfileActivity,
+                            resources.getString(R.string.image_selection_failed),
+                        Toast.LENGTH_SHORT
+                        )
+                            .show()
+                    }
+                }
+            }
+        }
+    }
 
 }
