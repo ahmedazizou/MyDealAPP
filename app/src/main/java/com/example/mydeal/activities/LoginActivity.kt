@@ -57,13 +57,9 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
         hideProgressDialog()
 
-        //print user details in log
-        Log.i("First Name ",user.firstName)
-        Log.i("Lat Name ",user.lastName)
-        Log.i("Email ",user.email)
+
 
         // Redirect the user to the UserProfile screen if it is incomplete otherwise to the Main screen.
-
         if (user.profileSteps == 0) {
             // If the user profile is incomplete then launch the UserProfileActivity.
             val intent = Intent(this@LoginActivity, UserProfileActivity::class.java)

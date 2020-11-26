@@ -131,6 +131,8 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener{
         //key: gender value:male
         userHashMap[Constants.GENDER] = gender
 
+        userHashMap[Constants.PROFILE_STEPS] = 1
+
         //here we updating the data
         FireStoreClass().updateUserProfileData(this, userHashMap)
     }

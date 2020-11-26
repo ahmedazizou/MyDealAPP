@@ -8,14 +8,14 @@ import android.webkit.MimeTypeMap
 
 //Constants are accessible hole application
 object Constants {
-    const val READ_STORAGE_PERMISSION_CODE: Int = 2
+    const val READ_STORAGE_PERMISSION_CODE = 2
 
     //using in order to get users collection from our cloud firestore
     const val USERS: String = "users"
     const val MYDEAL_PREFERENCES: String = "MyDealPrefs"
     const val LOGGED_IN_USERNAME: String = "logged_in_username"
     const val EXTRA_USER_DETAILS: String = "extra_user_details"
-    const val SELECT_IMAGE_REQUEST_CODE: Int = 1
+    const val SELECT_IMAGE_REQUEST_CODE = 1
 
     const val MALE: String = "Male"
     const val FEMALE: String = "Female"
@@ -24,6 +24,9 @@ object Constants {
     const val PHONE:String = "phone"
     const val GENDER:String = "gender"
     const val USER_PROFILE_IMAGE:String = "user_profile_image"
+
+
+    const val PROFILE_STEPS: String = "profileSteps"
 
 
 
