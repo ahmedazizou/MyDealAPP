@@ -7,6 +7,8 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -46,6 +48,8 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener{
 
         //add click listener
         iv_user_photo.setOnClickListener(this@UserProfileActivity)
+
+        btn_submit.setOnClickListener(this@UserProfileActivity)
     }
 
     override fun onClick(p0: View?) {
@@ -75,6 +79,12 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener{
                             arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
                             Constants.READ_STORAGE_PERMISSION_CODE
                         )
+                    }
+                }
+
+                R.id.btn_submit -> {
+                    if (validateUserProfileCredentials()){
+                        showErrorSnackBar("Thank you for updating your profile",false)
                     }
                 }
             }
@@ -117,10 +127,23 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener{
                             this@UserProfileActivity,
                             resources.getString(R.string.image_selection_failed),
                         Toast.LENGTH_SHORT
-                        )
-                            .show()
+                        ).show()
                     }
                 }
+            }
+        } else if (resultCode == Activity.RESULT_CANCELED){
+            // a log is printed when user close  or cancel the image selection
+            Log.e("Request Cancelled","Image selection cancelled")
+        }
+    }
+    private fun validateUserProfileCredentials():Boolean {
+        return when {
+            TextUtils.isEmpty(et_mobile_number.text.toString().trim { it <= ' ' }) -> {
+                showErrorSnackBar(resources.getString(R.string.err_msg_enter_phone_number),true)
+                false
+            }
+            else -> {
+                true
             }
         }
     }

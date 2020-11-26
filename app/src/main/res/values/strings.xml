@@ -55,6 +55,6 @@
     <string name="rb_lbl_female">Female</string>
     <string name="btn_lbl_save">Save</string>
     <string name="read_storage_permission_denied">Permission denied.Please Allow it first</string>
-
+    <string name="err_msg_enter_phone_number">Enter your phone number.</string>
     <string name="image_selection_failed">Image selection failed!</string>
 </resources>
