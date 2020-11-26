@@ -23,12 +23,13 @@ import kotlinx.android.synthetic.main.activity_register.et_first_name
 import kotlinx.android.synthetic.main.activity_register.et_last_name
 import kotlinx.android.synthetic.main.activity_user_profile.*
 import java.io.IOException
-import java.net.URL
+
 
 class UserProfileActivity : BaseActivity(), View.OnClickListener{
 
     private lateinit var myUserDetails: User
     private var mySelectedImageFileUri: Uri? = null
+    private var myUserProfileImageURL : String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,43 +89,50 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener{
                 }
 
                 R.id.btn_submit -> {
-
-                    showProgressDialog(resources.getString(R.string.loading))
-
-                    //upload image to  cloud
-                    FireStoreClass().uploadImagesToCloud(this,mySelectedImageFileUri)
-
-                    /*
                     if (validateUserProfileCredentials()){
-                        //https://www.geeksforgeeks.org/kotlin-hashmap/
-                        val userHashMap = HashMap<String,Any>()
-
-                        val mobileNumber = et_mobile_number.text.toString().trim{it <= ' '}
-
-                        val gender = if (rb_male.isChecked){
-                            Constants.MALE
-                        } else {
-                            Constants.FEMALE
-                        }
-                        //check the number if it not empty then store it in our user hashmap
-                        if (mobileNumber.isNotEmpty()){
-                            userHashMap[Constants.PHONE] = mobileNumber.toLong()
-                        }
-                        //key: gender value:male
-                        userHashMap[Constants.GENDER] = gender
-
 
                         showProgressDialog(resources.getString(R.string.loading))
 
-                        //here we updating the data
-                        FireStoreClass().updateUserProfileData(this, userHashMap)
-
-
+                        //upload image to  cloud
+                        //make sure its not empty
+                        if (mySelectedImageFileUri != null)
+                        FireStoreClass().uploadImagesToCloud(this,mySelectedImageFileUri)
+                        else {
+                            updateUserProfileDetails()
+                        }
                         //showErrorSnackBar("Thank you for updating your profile",false)
-                    }*/
+                    }
                 }
             }
         }
+    }
+
+    private fun updateUserProfileDetails(){
+        //https://www.geeksforgeeks.org/kotlin-hashmap/
+        val userHashMap = HashMap<String,Any>()
+
+        val mobileNumber = et_mobile_number.text.toString().trim{it <= ' '}
+
+        val gender = if (rb_male.isChecked){
+            Constants.MALE
+        } else {
+            Constants.FEMALE
+        }
+
+        //check if url is not empty then put it as url
+        if (myUserProfileImageURL.isNotEmpty()) {
+            userHashMap[Constants.IMAGE] = myUserProfileImageURL
+        }
+
+        //check the number if it not empty then store it in our user hashmap
+        if (mobileNumber.isNotEmpty()){
+            userHashMap[Constants.PHONE] = mobileNumber.toLong()
+        }
+        //key: gender value:male
+        userHashMap[Constants.GENDER] = gender
+
+        //here we updating the data
+        FireStoreClass().updateUserProfileData(this, userHashMap)
     }
 
     fun userProfileUpdateSuccess(){
@@ -141,6 +149,7 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener{
         startActivity(Intent(this@UserProfileActivity,MainActivity::class.java))
         finish()
     }
+
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == Constants.READ_STORAGE_PERMISSION_CODE) {
@@ -199,11 +208,10 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener{
     }
 
     fun imageUploadSuccess(imageURL: String) {
-        hideProgressDialog()
-        // toast for alert
-        Toast.makeText(
-            this@UserProfileActivity,"Image uploaded successfully",
-            Toast.LENGTH_SHORT
-        ).show()
+        //hideProgressDialog()
+
+        myUserProfileImageURL = imageURL
+        updateUserProfileDetails()
+
     }
 }
