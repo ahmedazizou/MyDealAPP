@@ -36,10 +36,10 @@ class RegisterActivity : BaseActivity() {
         deal_login.setOnClickListener {
 
             // send him back the login page
-            onBackPressed()
+            // onBackPressed()
 
             // launch register form after user clicks on register.
-            // val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
+             val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
             startActivity(intent)
         }
         //set on click listener for registration submit button
@@ -69,7 +69,7 @@ class RegisterActivity : BaseActivity() {
                 false
             }
 
-            TextUtils.isEmpty(et_last_name.text.toString().trim { it <= ' ' }) || et_last_name.length() <= 3 -> {
+            TextUtils.isEmpty(et_last_name.text.toString().trim { it <= ' ' }) -> {
                 showErrorSnackBar(resources.getString(R.string.err_msg_enter_last_name), true)
                 false
             }
@@ -149,6 +149,8 @@ class RegisterActivity : BaseActivity() {
                             // to sing the user out
                             //FirebaseAuth.getInstance().signOut()
                             // to finish register activity and back to login activity to login
+                            val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
+                            startActivity(intent)
                             //finish()
 
                         } else {
@@ -163,7 +165,7 @@ class RegisterActivity : BaseActivity() {
     // function to display once user is Registered successfully
     fun userRegisteredSucceeded() {
 
-        // hide the load disply
+        // hide the load display
         hideProgressDialog()
 
         Toast.makeText(

@@ -78,7 +78,7 @@ private fun getCurrentUserId(): String {
                 val editor: SharedPreferences.Editor = sharedPreferences.edit()
                 editor.putString(
                     Constants.LOGGED_IN_USERNAME,
-                    "${user.firstName} ${user.LastName}"
+                    "${user.firstName} ${user.lastName}"
                 )
                 //to make sure we apply what is edited
                 editor.apply()

@@ -11,6 +11,7 @@ import android.view.WindowManager
 import com.example.mydeal.R
 import com.example.mydeal.firestore.FireStoreClass
 import com.example.mydeal.models.User
+import com.example.mydeal.utils.Constants
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_login.*
 
@@ -58,7 +59,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
         //print user details in log
         Log.i("First Name ",user.firstName)
-        Log.i("Lat Name ",user.LastName)
+        Log.i("Lat Name ",user.lastName)
         Log.i("Email ",user.email)
 
         // Redirect the user to the UserProfile screen if it is incomplete otherwise to the Main screen.
@@ -66,6 +67,10 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         if (user.profileSteps == 0) {
             // If the user profile is incomplete then launch the UserProfileActivity.
             val intent = Intent(this@LoginActivity, UserProfileActivity::class.java)
+
+            //We can give extra information to intents from activity to an other
+            intent.putExtra(Constants.EXTRA_USER_DETAILS, user)
+
             startActivity(intent)
         } else {
             // Redirect the user to Main Screen after log in.
