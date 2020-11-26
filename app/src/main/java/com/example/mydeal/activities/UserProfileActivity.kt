@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat
 import com.example.mydeal.R
 import com.example.mydeal.models.User
 import com.example.mydeal.utils.Constants
+import com.example.mydeal.utils.GlideLoader
 import kotlinx.android.synthetic.main.activity_register.*
 import kotlinx.android.synthetic.main.activity_register.et_email
 import kotlinx.android.synthetic.main.activity_register.et_first_name
@@ -108,7 +109,8 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener{
                         //Uri of seleted image from phone gallery.
                         val selectedImageFileUri = data.data!!
 
-                        iv_user_photo.setImageURI(Uri.parse(selectedImageFileUri.toString()))
+                        //iv_user_photo.setImageURI(Uri.parse(selectedImageFileUri.toString()))
+                        GlideLoader(this).loadUserImage(selectedImageFileUri,iv_user_photo)
                     } catch (e: IOException){
                         e.printStackTrace()
                         Toast.makeText(
