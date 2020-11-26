@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import android.util.Log
 import com.example.mydeal.activities.LoginActivity
 import com.example.mydeal.activities.RegisterActivity
+import com.example.mydeal.activities.UserProfileActivity
 import com.example.mydeal.models.User
 import com.example.mydeal.utils.Constants
 import com.google.firebase.auth.FirebaseAuth
@@ -17,8 +18,8 @@ class FireStoreClass {
 
     private val myFirestore = FirebaseFirestore.getInstance()
 
-// Create a function to access the Cloud Firestore and create a collection.
-// function to make an entry of the registered user in the FireStore database.
+    // Create a function to access the Cloud Firestore and create a collection.
+    // function to make an entry of the registered user in the FireStore database.
     fun registerUser(activity: RegisterActivity, userInfo: User) {
 
         // The "users" is collection name. If the collection is already created then it will not create the same one again.
@@ -42,8 +43,8 @@ class FireStoreClass {
             }
     }
 
-// Function to get the user id of the current logged in user.
-private fun getCurrentUserId(): String {
+    // Function to get the user id of the current logged in user.
+    private fun getCurrentUserId(): String {
         // An Instance of currentUser using FirebaseAuth
         val currentUser = FirebaseAuth.getInstance().currentUser
 
@@ -109,5 +110,29 @@ private fun getCurrentUserId(): String {
             }
     }
 
+    fun updateUserProfileData(activity: Activity,userHashMap: HashMap<String,Any>){
 
+        myFirestore.collection(Constants.USERS).document(getCurrentUserId())
+            .update(userHashMap)
+            .addOnSuccessListener {
+                when (activity){
+                    is UserProfileActivity -> {
+                        //Hide the loading
+                        activity.userProfileUpdateSuccess()
+                    }
+                }
+
+            }
+            .addOnFailureListener { e->
+                when (activity){
+                    is UserProfileActivity -> {
+                        //Hide the loading
+                        activity.hideProgressDialog()
+                    }
+                }
+                Log.e(
+                    activity.javaClass.simpleName,"Error updating details",e
+                )
+            }
+    }
 }

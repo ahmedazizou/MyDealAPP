@@ -4,8 +4,6 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -14,6 +12,7 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.mydeal.R
+import com.example.mydeal.firestore.FireStoreClass
 import com.example.mydeal.models.User
 import com.example.mydeal.utils.Constants
 import com.example.mydeal.utils.GlideLoader
@@ -25,25 +24,27 @@ import kotlinx.android.synthetic.main.activity_user_profile.*
 import java.io.IOException
 
 class UserProfileActivity : BaseActivity(), View.OnClickListener{
+
+    private lateinit var myUserDetails: User
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_profile)
 
-        var userDetails: User = User()
+
         if (intent.hasExtra(Constants.EXTRA_USER_DETAILS)){
             // Get user details from intent as a parcel able extra
-            userDetails = intent.getParcelableExtra(Constants.EXTRA_USER_DETAILS)!!
+            myUserDetails = intent.getParcelableExtra(Constants.EXTRA_USER_DETAILS)!!
         }
 
         // User shouldn't be able to change some field firstname,lastname,email
         et_first_name.isEnabled = false
-        et_first_name.setText(userDetails.firstName)
+        et_first_name.setText(myUserDetails.firstName)
 
         et_last_name.isEnabled = false
-        et_last_name.setText(userDetails.lastName)
+        et_last_name.setText(myUserDetails.lastName)
 
         et_email.isEnabled = false
-        et_email.setText(userDetails.email)
+        et_email.setText(myUserDetails.email)
 
 
         //add click listener
@@ -84,13 +85,51 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener{
 
                 R.id.btn_submit -> {
                     if (validateUserProfileCredentials()){
-                        showErrorSnackBar("Thank you for updating your profile",false)
+                        //https://www.geeksforgeeks.org/kotlin-hashmap/
+                        val userHashMap = HashMap<String,Any>()
+
+                        val mobileNumber = et_mobile_number.text.toString().trim{it <= ' '}
+
+                        val gender = if (rb_male.isChecked){
+                            Constants.MALE
+                        } else {
+                            Constants.FEMALE
+                        }
+                        //check the number if it not empty then store it in our user hashmap
+                        if (mobileNumber.isNotEmpty()){
+                            userHashMap[Constants.PHONE] = mobileNumber.toLong()
+                        }
+                        //key: gender value:male
+                        userHashMap[Constants.GENDER] = gender
+
+
+                        showProgressDialog(resources.getString(R.string.loading))
+
+                        //here we updating the data
+                        FireStoreClass().updateUserProfileData(this, userHashMap)
+
+
+                        //showErrorSnackBar("Thank you for updating your profile",false)
                     }
                 }
             }
         }
     }
 
+    fun userProfileUpdateSuccess(){
+        hideProgressDialog()
+
+        //make a toast allert
+        Toast.makeText(
+            this@UserProfileActivity,
+            resources.getString(R.string.msg_profile_update_success),
+            Toast.LENGTH_SHORT
+        ).show()
+
+        //send user from the userprof activity to main
+        startActivity(Intent(this@UserProfileActivity,MainActivity::class.java))
+        finish()
+    }
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == Constants.READ_STORAGE_PERMISSION_CODE) {
