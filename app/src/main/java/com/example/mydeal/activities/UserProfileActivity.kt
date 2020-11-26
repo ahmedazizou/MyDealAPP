@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -22,10 +23,13 @@ import kotlinx.android.synthetic.main.activity_register.et_first_name
 import kotlinx.android.synthetic.main.activity_register.et_last_name
 import kotlinx.android.synthetic.main.activity_user_profile.*
 import java.io.IOException
+import java.net.URL
 
 class UserProfileActivity : BaseActivity(), View.OnClickListener{
 
     private lateinit var myUserDetails: User
+    private var mySelectedImageFileUri: Uri? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_profile)
@@ -84,6 +88,13 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener{
                 }
 
                 R.id.btn_submit -> {
+
+                    showProgressDialog(resources.getString(R.string.loading))
+
+                    //upload image to  cloud
+                    FireStoreClass().uploadImagesToCloud(this,mySelectedImageFileUri)
+
+                    /*
                     if (validateUserProfileCredentials()){
                         //https://www.geeksforgeeks.org/kotlin-hashmap/
                         val userHashMap = HashMap<String,Any>()
@@ -110,7 +121,7 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener{
 
 
                         //showErrorSnackBar("Thank you for updating your profile",false)
-                    }
+                    }*/
                 }
             }
         }
@@ -119,14 +130,14 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener{
     fun userProfileUpdateSuccess(){
         hideProgressDialog()
 
-        //make a toast allert
+        //make a toast alert
         Toast.makeText(
             this@UserProfileActivity,
             resources.getString(R.string.msg_profile_update_success),
             Toast.LENGTH_SHORT
         ).show()
 
-        //send user from the userprof activity to main
+        //send user from the user prof activity to main
         startActivity(Intent(this@UserProfileActivity,MainActivity::class.java))
         finish()
     }
@@ -155,11 +166,11 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener{
             if (requestCode == Constants.SELECT_IMAGE_REQUEST_CODE){
                 if (data != null){
                     try {
-                        //Uri of seleted image from phone gallery.
-                        val selectedImageFileUri = data.data!!
+                        //Uri of selected image from phone gallery.
+                        mySelectedImageFileUri = data.data!!
 
                         //iv_user_photo.setImageURI(Uri.parse(selectedImageFileUri.toString()))
-                        GlideLoader(this).loadUserImage(selectedImageFileUri,iv_user_photo)
+                        GlideLoader(this).loadUserImage(mySelectedImageFileUri!!,iv_user_photo)
                     } catch (e: IOException){
                         e.printStackTrace()
                         Toast.makeText(
@@ -187,4 +198,12 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener{
         }
     }
 
+    fun imageUploadSuccess(imageURL: String) {
+        hideProgressDialog()
+        // toast for alert
+        Toast.makeText(
+            this@UserProfileActivity,"Image uploaded successfully",
+            Toast.LENGTH_SHORT
+        ).show()
+    }
 }

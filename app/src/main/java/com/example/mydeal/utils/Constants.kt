@@ -2,7 +2,9 @@ package com.example.mydeal.utils
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.provider.MediaStore
+import android.webkit.MimeTypeMap
 
 //Constants are accessible hole application
 object Constants {
@@ -22,6 +24,9 @@ object Constants {
 
     const val PHONE:String = "phone"
     const val GENDER:String = "gender"
+    const val USER_PROFILE_IMAGE:String = "user_profile_image"
+
+
 
     fun shopImagePicker(activity: Activity){
         // an intent for launching the image gallery
@@ -31,4 +36,25 @@ object Constants {
         // Launch the image selection of photo using our constant code
         activity.startActivityForResult(galleryIntent,SELECT_IMAGE_REQUEST_CODE)
     }
+
+    /**
+     * A function to get the image file extension of the selected image file.
+     *
+     * @param activity Activity reference.
+     * @param uri Image file uri.
+     */
+    fun getFileExtension(activity: Activity, uri: Uri?): String? {
+        /*
+         * MimeTypeMap: Two-way map that maps MIME-types to file extensions and vice versa.
+         *
+         * getSingleton(): Get the singleton instance of MimeTypeMap.
+         *
+         * getExtensionFromMimeType: Return the registered extension for the given MIME type.
+         *
+         * contentResolver.getType: Return the MIME type of the given content URL.
+         */
+        return MimeTypeMap.getSingleton()
+            .getExtensionFromMimeType(activity.contentResolver.getType(uri!!))
+    }
+
 }
