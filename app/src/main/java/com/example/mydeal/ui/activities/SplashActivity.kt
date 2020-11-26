@@ -1,4 +1,4 @@
-package com.example.mydeal.activities
+package com.example.mydeal.ui.activities.fragments
 
 import android.content.Intent
 import android.os.Build
@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.view.WindowInsets
-import android.view.WindowManager
 import android.view.WindowManager.LayoutParams.*
 import com.example.mydeal.R
 import kotlinx.android.synthetic.main.activity_splash.*
@@ -31,7 +30,7 @@ class SplashActivity : AppCompatActivity() {
         Handler().postDelayed(
         {
             //Launch the main activity after splash screen
-        startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
+        startActivity(Intent(this@SplashActivity, DashboardActivity::class.java))
             finish() // call this method when activity is done and close it
         },
         2500

@@ -5,9 +5,9 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
 import android.util.Log
-import com.example.mydeal.activities.LoginActivity
-import com.example.mydeal.activities.RegisterActivity
-import com.example.mydeal.activities.UserProfileActivity
+import com.example.mydeal.ui.activities.fragments.LoginActivity
+import com.example.mydeal.ui.activities.fragments.RegisterActivity
+import com.example.mydeal.ui.activities.fragments.UserProfileActivity
 import com.example.mydeal.models.User
 import com.example.mydeal.utils.Constants
 import com.google.firebase.auth.FirebaseAuth
@@ -15,7 +15,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import java.net.URI
 
 
 class FireStoreClass {

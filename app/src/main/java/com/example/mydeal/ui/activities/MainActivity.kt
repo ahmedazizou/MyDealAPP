@@ -1,4 +1,4 @@
-package com.example.mydeal.activities
+package com.example.mydeal.ui.activities.fragments
 
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity

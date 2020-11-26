@@ -1,6 +1,8 @@
-package com.example.mydeal.activities
+package com.example.mydeal.ui.activities.fragments
 
 import android.app.Dialog
+import android.os.Handler
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.mydeal.R
@@ -9,6 +11,8 @@ import kotlinx.android.synthetic.main.process_progress.*
 
 // Create a function to show the success and error messages in snack bar component.
 open class BaseActivity : AppCompatActivity() {
+    private var doubleBackToExitPress = false
+
     private lateinit var myProgressLoad: Dialog
 
 //    override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,4 +71,23 @@ open class BaseActivity : AppCompatActivity() {
         myProgressLoad.dismiss()
     }
 
+    fun doubleBackToExit(){
+        if (doubleBackToExitPress){
+            super.onBackPressed()
+            return
+        }
+        this.doubleBackToExitPress = true
+
+        Toast.makeText(
+            this,
+            resources.getString(R.string.click_back_again_to_exit),
+            Toast.LENGTH_SHORT
+        ).show()
+
+        @Suppress("DEPRECATION")
+        Handler().postDelayed({ doubleBackToExitPress = false}, 2000)
+
+
+
+    }
 }
