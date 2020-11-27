@@ -36,16 +36,43 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener{
         setContentView(R.layout.activity_user_profile)
 
 
+
         if (intent.hasExtra(Constants.EXTRA_USER_DETAILS)){
             // Get user details from intent as a parcel able extra
             myUserDetails = intent.getParcelableExtra(Constants.EXTRA_USER_DETAILS)!!
         }
 
-        // User shouldn't be able to change some field firstname,lastname,email
-        et_first_name.isEnabled = false
-        et_first_name.setText(myUserDetails.firstName)
+        // If the profile is incomplete then user is from login screen and wants to complete the profile.
+        if (myUserDetails.profileSteps == 0) {
+            tv_title.text = resources.getString(R.string.title_complete_profile)
 
-        et_last_name.isEnabled = false
+            et_first_name.isEnabled = false
+            et_last_name.isEnabled = false
+
+        } else{
+            // Call the setup action bar function.
+            setupActionBar()
+
+            // Update the title of the screen to edit profile.
+            tv_title.text = resources.getString(R.string.title_edit_profile)
+
+            // Load the image using the GlideLoader class with the use of Glide Library.
+            GlideLoader(this@UserProfileActivity).loadUserImage(myUserDetails.profileImage, iv_user_photo)
+
+
+            if (myUserDetails.phone != 0L) {
+                et_mobile_number.setText(myUserDetails.phone.toString())
+            }
+            if (myUserDetails.gender == Constants.MALE) {
+                rb_male.isChecked = true
+            } else {
+                rb_female.isChecked = true
+            }
+        }
+
+        // User shouldn't be able to change some field firstname,lastname,email
+
+        et_first_name.setText(myUserDetails.firstName)
         et_last_name.setText(myUserDetails.lastName)
 
         et_email.isEnabled = false
@@ -111,6 +138,18 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener{
         //https://www.geeksforgeeks.org/kotlin-hashmap/
         val userHashMap = HashMap<String,Any>()
 
+        // Get the FirstName from editText and trim the space
+        val firstName = et_first_name.text.toString().trim { it <= ' ' }
+        if (firstName != myUserDetails.firstName) {
+            userHashMap[Constants.FIRST_NAME] = firstName
+        }
+
+        // Get the LastName from editText and trim the space
+        val lastName = et_last_name.text.toString().trim { it <= ' ' }
+        if (lastName != myUserDetails.lastName) {
+            userHashMap[Constants.LAST_NAME] = lastName
+        }
+
         val mobileNumber = et_mobile_number.text.toString().trim{it <= ' '}
 
         val gender = if (rb_male.isChecked){
@@ -125,8 +164,13 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener{
         }
 
         //check the number if it not empty then store it in our user hashmap
-        if (mobileNumber.isNotEmpty()){
+        // Update the code here if it is to edit the profile.
+        if (mobileNumber.isNotEmpty() && mobileNumber != myUserDetails.phone.toString()) {
             userHashMap[Constants.PHONE] = mobileNumber.toLong()
+        }
+
+        if (gender.isNotEmpty() && gender != myUserDetails.gender) {
+            userHashMap[Constants.GENDER] = gender
         }
         //key: gender value:male
         userHashMap[Constants.GENDER] = gender
@@ -197,6 +241,7 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener{
             Log.e("Request Cancelled","Image selection cancelled")
         }
     }
+
     private fun validateUserProfileCredentials():Boolean {
         return when {
             TextUtils.isEmpty(et_mobile_number.text.toString().trim { it <= ' ' }) -> {
@@ -209,6 +254,11 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener{
         }
     }
 
+    /**
+     * A function to notify the success result of image upload to the Cloud Storage.
+     *
+     * @param imageURL After successful upload the Firebase Cloud returns the URL.
+     */
     fun imageUploadSuccess(imageURL: String) {
         //hideProgressDialog()
 
@@ -216,4 +266,17 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener{
         updateUserProfileDetails()
 
     }
-}
+
+    // Create a function to setup action bar if the user is about to edit profile.
+    private fun setupActionBar() {
+
+        setSupportActionBar(toolbar_user_profile_activity)
+
+        val actionBar = supportActionBar
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true)
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_white_color_back_24dp)
+        }
+
+        toolbar_user_profile_activity.setNavigationOnClickListener { onBackPressed() }
+    }}
