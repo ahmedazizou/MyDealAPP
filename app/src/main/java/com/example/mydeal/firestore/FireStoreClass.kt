@@ -5,10 +5,12 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
 import android.util.Log
+import com.bumptech.glide.load.ImageHeaderParser
 import com.example.mydeal.ui.activities.fragments.LoginActivity
 import com.example.mydeal.ui.activities.fragments.RegisterActivity
 import com.example.mydeal.ui.activities.fragments.UserProfileActivity
 import com.example.mydeal.models.User
+import com.example.mydeal.ui.activities.AddProductActivity
 import com.example.mydeal.ui.activities.SettingsActivity
 import com.example.mydeal.utils.Constants
 import com.google.firebase.auth.FirebaseAuth
@@ -148,10 +150,10 @@ class FireStoreClass {
     }
 
     // A function to upload the image to the cloud storage.
-    fun uploadImagesToCloud(activity: Activity,imageFileURI: Uri?){
+    fun uploadImagesToCloud(activity: Activity,imageFileURI: Uri?, imageType: String){
         //getting the storage reference
         val sRef: StorageReference = FirebaseStorage.getInstance().reference.child(
-            Constants.USER_PROFILE_IMAGE + System.currentTimeMillis() + "."
+            imageType + System.currentTimeMillis() + "."
                     + Constants.getFileExtension(
                 activity,
                 imageFileURI
@@ -177,6 +179,10 @@ class FireStoreClass {
                         // Here call a function of base activity for transferring the result to it.
                         when (activity) {
                             is UserProfileActivity -> {
+                                activity.imageUploadSuccess(uri.toString())
+                            }
+                            is AddProductActivity -> {
+                                // even the same name but they are diffrent
                                 activity.imageUploadSuccess(uri.toString())
                             }
                         }

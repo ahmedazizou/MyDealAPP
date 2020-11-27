@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.mydeal.R
+import com.example.mydeal.firestore.FireStoreClass
 import com.example.mydeal.ui.activities.fragments.BaseActivity
 import com.example.mydeal.utils.Constants
 import com.example.mydeal.utils.GlideLoader
@@ -72,12 +73,27 @@ class AddProductActivity : BaseActivity(), View.OnClickListener {
 
                 R.id.btn_submit_item -> {
                     if (validateProductCredentials()){
-                        showErrorSnackBar("All Credentials are valid.",false)
+                        uploadItemImage()
                     }
                 }
 
             }
         }
+    }
+
+    private fun uploadItemImage(){
+        showProgressDialog(resources.getString(R.string.loading))
+        FireStoreClass().uploadImagesToCloud(this,mySelectedImageFileURI,Constants.ITEM_IMAGE)
+    }
+
+    fun imageUploadSuccess(imageURL: String) {
+        hideProgressDialog()
+
+        //temp for  testing
+        showErrorSnackBar("IMAGE UPLOADED  $imageURL",false)
+//        myUserProfileImageURL = imageURL
+//        updateUserProfileDetails()
+
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
