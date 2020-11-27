@@ -74,4 +74,15 @@
     <string name="lbl_edit">Edit</string>
     <string name="title_edit_profile">EDIT PROFILE</string>
     <string name="action_add_product">Add an Item</string>
+
+    //for item page
+    <string name="text_add_item">Add Item</string>
+    <string name="text_item_title">Item Title</string>
+    <string name="text_price">Price (Lv)</string>
+    <string name="text_item_description">Description</string>
+    <string name="text_stock_number">Stock Quantity</string>
+
+
+
+
 </resources>

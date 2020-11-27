@@ -14,4 +14,9 @@
 
     <color name="colorBorder">#F0E8E6E6</color>
     <color name="colorDGrey">#D7878787</color>
+
+
+    <color name="colorImageViewBG">#FF9800</color>
+
+
 </resources>

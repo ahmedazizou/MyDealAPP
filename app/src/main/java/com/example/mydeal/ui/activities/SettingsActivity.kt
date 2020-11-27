@@ -47,7 +47,7 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
 
 
     //  Create a function to setup action bar.
-    // START
+
     /**
      * A function for actionBar Setup.
      */
@@ -66,7 +66,6 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
 
 
     // Create a function to get the user details from firestore.
-
     /**
      * A function to get the user details from firestore.
      */

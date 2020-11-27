@@ -62,4 +62,10 @@
     <dimen name="settings_button_marginStartEnd">50dp</dimen>
     <dimen name="settings_button_marginTopBottom">16dp</dimen>
 
+    <dimen name="add_item_header_image">200dp</dimen>
+    <dimen name="add_product_icon">16dp</dimen>
+
+
+
+
 </resources>
