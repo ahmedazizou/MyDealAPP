@@ -9,6 +9,7 @@ import com.example.mydeal.ui.activities.fragments.LoginActivity
 import com.example.mydeal.ui.activities.fragments.RegisterActivity
 import com.example.mydeal.ui.activities.fragments.UserProfileActivity
 import com.example.mydeal.models.User
+import com.example.mydeal.ui.activities.SettingsActivity
 import com.example.mydeal.utils.Constants
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -94,6 +95,10 @@ class FireStoreClass {
                         // Call a function of base activity for transferring the result to it.
                         activity.userLoginSuccess(user)
                     }
+                    is SettingsActivity -> {
+                        activity.userDetailsSuccess(user)
+
+                    }
                 }
 
             }
@@ -101,6 +106,9 @@ class FireStoreClass {
                 // Hide the progress dialog if there is any error. And print the error in log.
                 when (activity) {
                     is LoginActivity -> {
+                        activity.hideProgressDialog()
+                    }
+                    is SettingsActivity ->{
                         activity.hideProgressDialog()
                     }
                 }

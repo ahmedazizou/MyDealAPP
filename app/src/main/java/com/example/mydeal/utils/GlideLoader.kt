@@ -9,12 +9,12 @@ import java.io.IOException
 import java.net.URI
 
 class GlideLoader(val context: Context) {
-    fun loadUserImage(imageURI: Uri, imageView: ImageView) {
+    fun loadUserImage(profileImage: Any, imageView: ImageView) {
         try {
             // load the image in the imageview
             Glide
                 .with(context)
-                .load(imageURI) // URI OF THE IMAGE
+                .load(profileImage) // URI OF THE IMAGE
                 .centerCrop() //Scale type of image
                 .placeholder(R.drawable.profile_pic) // the default place holder if image failed
                 .into(imageView) // the view in which the image ll be loaded
