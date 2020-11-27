@@ -9,8 +9,9 @@ import androidx.fragment.app.Fragment
 import com.example.mydeal.R
 import com.example.mydeal.ui.activities.AddProductActivity
 import com.example.mydeal.ui.activities.SettingsActivity
+import com.example.mydeal.ui.fragments.BaseFragment
 
-class ProductsFragment : Fragment() {
+class ProductsFragment : BaseFragment() {
 
     //private lateinit var homeViewModel: HomeViewModel
 
@@ -27,10 +28,7 @@ class ProductsFragment : Fragment() {
     ): View? {
         //homeViewModel =ViewModelProviders.of(this).get(HomeViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_products, container, false)
-        val textView: TextView = root.findViewById(R.id.text_home)
-        //homeViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = ""
-        //})
+
         return root
     }
 

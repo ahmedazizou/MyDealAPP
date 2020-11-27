@@ -87,6 +87,9 @@
     <string name="err_msg_enter_item_description">Add description to the item</string>
     <string name="err_msg_enter_stock_quantity">"Enter stock quantity "</string>
     <string name="item_uploaded_ok">Your Item has been add successfully</string>
+    <string name="no_items_added_yet">There is no items added at the moment</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>
