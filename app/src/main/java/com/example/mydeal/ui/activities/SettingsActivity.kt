@@ -1,16 +1,24 @@
 package com.example.mydeal.ui.activities
 
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import com.example.mydeal.R
 import com.example.mydeal.firestore.FireStoreClass
 import com.example.mydeal.models.User
 import com.example.mydeal.ui.activities.fragments.BaseActivity
+import com.example.mydeal.ui.activities.fragments.LoginActivity
+import com.example.mydeal.ui.activities.fragments.UserProfileActivity
+import com.example.mydeal.utils.Constants
 import com.example.mydeal.utils.GlideLoader
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_setting.*
 
 //Replace the AppCompactActivity with BaseActivity.
-class SettingsActivity : BaseActivity() {
+class SettingsActivity : BaseActivity(), View.OnClickListener {
+
+    private lateinit var myUserDetails: User
     /**
      * This function is auto created by Android when the Activity Class is created.
      */
@@ -22,6 +30,10 @@ class SettingsActivity : BaseActivity() {
 
         // Call the function to setup action bar.
         setupActionBar()
+
+        //Add on click listener
+        tv_edit.setOnClickListener(this)
+        btn_logout.setOnClickListener(this)
 
     }
 
@@ -74,6 +86,7 @@ class SettingsActivity : BaseActivity() {
      * A function to receive the user details and populate it in the UI.
      */
     fun userDetailsSuccess(user: User) {
+        myUserDetails = user
 
         // Set the user details to UI.
 
@@ -88,6 +101,36 @@ class SettingsActivity : BaseActivity() {
         tv_email.text = user.email
         tv_mobile_number.text = "${user.phone}"
 
+    }
+
+    //Override the onClick function.
+    override fun onClick(p0: View?) {
+        if (p0 != null) {
+            when (p0.id) {
+
+                // Call the User Profile Activity to add the Edit Profile feature to the app. Pass the user details through intent.
+
+                R.id.tv_edit -> {
+                    val intent = Intent(this@SettingsActivity, UserProfileActivity::class.java)
+                    intent.putExtra(Constants.EXTRA_USER_DETAILS, myUserDetails)
+                    startActivity(intent)
+                }
+
+
+                // Add Logout feature when user clicks on logout button.
+
+                R.id.btn_logout -> {
+
+                    FirebaseAuth.getInstance().signOut()
+
+                    val intent = Intent(this@SettingsActivity, LoginActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+                    finish()
+                }
+
+            }
+        }
     }
 
 }

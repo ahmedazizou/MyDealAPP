@@ -148,7 +148,7 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener{
         ).show()
 
         //send user from the user prof activity to main
-        startActivity(Intent(this@UserProfileActivity, MainActivity::class.java))
+        startActivity(Intent(this@UserProfileActivity, DashboardActivity::class.java))
         finish()
     }
 
