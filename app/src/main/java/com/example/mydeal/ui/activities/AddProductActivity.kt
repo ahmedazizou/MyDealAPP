@@ -2,6 +2,7 @@ package com.example.mydeal.ui.activities
 
 import android.Manifest
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -15,6 +16,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.mydeal.R
 import com.example.mydeal.firestore.FireStoreClass
+import com.example.mydeal.models.Item
 import com.example.mydeal.ui.activities.fragments.BaseActivity
 import com.example.mydeal.utils.Constants
 import com.example.mydeal.utils.GlideLoader
@@ -25,6 +27,7 @@ import java.io.IOException
 
 class AddProductActivity : BaseActivity(), View.OnClickListener {
     private var  mySelectedImageFileURI: Uri? = null
+    private var myItemImageURL: String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_product)
@@ -87,13 +90,45 @@ class AddProductActivity : BaseActivity(), View.OnClickListener {
     }
 
     fun imageUploadSuccess(imageURL: String) {
-        hideProgressDialog()
+
+        myItemImageURL = imageURL
+        //hideProgressDialog()
 
         //temp for  testing
-        showErrorSnackBar("IMAGE UPLOADED  $imageURL",false)
+        //showErrorSnackBar("IMAGE UPLOADED  $imageURL",false)
 //        myUserProfileImageURL = imageURL
 //        updateUserProfileDetails()
 
+        uploadItemDetails()
+    }
+
+    fun itemUploadSuccess(){
+        hideProgressDialog()
+
+        Toast.makeText(
+            this@AddProductActivity,
+            resources.getString(R.string.item_uploaded_ok),
+            Toast.LENGTH_SHORT
+        ).show()
+        finish()
+
+
+    }
+    private fun uploadItemDetails(){
+        val username = this.getSharedPreferences(Constants.MYDEAL_PREFERENCES, Context.MODE_PRIVATE)
+            .getString(Constants.LOGGED_IN_USERNAME,"")!!
+
+        //Create an object of type item
+        val item = Item(
+            FireStoreClass().getCurrentUserId(),
+            username,
+            et_product_title.text.toString().trim{ it <= ' '},
+            et_product_price.text.toString().trim{ it <= ' '},
+            et_product_description.text.toString().trim{ it <= ' '},
+            et_product_quantity.text.toString().trim{ it <= ' '},
+            myItemImageURL
+        )
+        FireStoreClass().uploadItemDetails(this,item)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

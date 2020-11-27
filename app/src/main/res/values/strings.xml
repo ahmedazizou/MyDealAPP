@@ -86,6 +86,7 @@
     <string name="err_msg_enter_item_price">Enter price of the item</string>
     <string name="err_msg_enter_item_description">Add description to the item</string>
     <string name="err_msg_enter_stock_quantity">"Enter stock quantity "</string>
+    <string name="item_uploaded_ok">Your Item has been add successfully</string>
 
 
 </resources>

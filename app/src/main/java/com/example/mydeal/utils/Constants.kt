@@ -16,22 +16,17 @@ object Constants {
     const val LOGGED_IN_USERNAME: String = "logged_in_username"
     const val EXTRA_USER_DETAILS: String = "extra_user_details"
     const val SELECT_IMAGE_REQUEST_CODE = 1
-
     const val MALE: String = "Male"
     const val FEMALE: String = "Female"
-
     const val IMAGE:String= "profileImage"
     const val PHONE:String = "phone"
     const val GENDER:String = "gender"
     const val USER_PROFILE_IMAGE:String = "user_profile_image"
     const val ITEM_IMAGE: String = "Item_Image"
-
     const val FIRST_NAME: String = "firstName"
     const val LAST_NAME: String = "lastName"
-
     const val PROFILE_STEPS: String = "profileSteps"
-
-
+    const val ITEMS : String = "Items"
 
     fun shopImagePicker(activity: Activity){
         // an intent for launching the image gallery

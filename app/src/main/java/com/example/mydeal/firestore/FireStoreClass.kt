@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import android.net.Uri
 import android.util.Log
 import com.bumptech.glide.load.ImageHeaderParser
+import com.example.mydeal.models.Item
 import com.example.mydeal.ui.activities.fragments.LoginActivity
 import com.example.mydeal.ui.activities.fragments.RegisterActivity
 import com.example.mydeal.ui.activities.fragments.UserProfileActivity
@@ -50,7 +51,7 @@ class FireStoreClass {
     }
 
     // Function to get the user id of the current logged in user.
-    private fun getCurrentUserId(): String {
+    fun getCurrentUserId(): String {
         // An Instance of currentUser using FirebaseAuth
         val currentUser = FirebaseAuth.getInstance().currentUser
 
@@ -206,4 +207,21 @@ class FireStoreClass {
             }
     }
 
+    fun uploadItemDetails(activity: AddProductActivity, itemInfo: Item){
+        myFirestore.collection(Constants.ITEMS)
+            .document()
+            .set(itemInfo, SetOptions.merge())
+            .addOnSuccessListener {
+                activity.itemUploadSuccess()
+            }
+            .addOnFailureListener { e->
+                activity.hideProgressDialog()
+                Log.e(
+                    activity.javaClass.simpleName,
+                    "There is an error uploading the item",
+                    e
+                )
+            }
+
+    }
 }
