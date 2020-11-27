@@ -66,7 +66,6 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="end|bottom"
                         android:contentDescription="@string/content_description"
-                        android:foreground="?attr/selectableItemBackgroundBorderless"
                         android:padding="@dimen/add_product_icon"
                         android:src="@drawable/ic_baseline_image_24"/>
             </FrameLayout>
@@ -170,7 +169,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.example.mydeal.utils.MyDealButton
-                    android:id="@+id/btn_submit"
+                    android:id="@+id/btn_submit_item"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -179,7 +178,7 @@
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="20dp"
                     android:background="@drawable/button_background"
-                    android:foreground="?attr/selectableItemBackground"
+
                     android:gravity="center"
                     android:paddingTop="@dimen/btn_padding"
                     android:paddingBottom="@dimen/btn_padding"

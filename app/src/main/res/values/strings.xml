@@ -81,8 +81,11 @@
     <string name="text_price">Price (Lv)</string>
     <string name="text_item_description">Description</string>
     <string name="text_stock_number">Stock Quantity</string>
-
-
+    <string name="err_msg_select_item_image">Please select an image</string>
+    <string name="err_msg_enter_item_title">Enter item title</string>
+    <string name="err_msg_enter_item_price">Enter price of the item</string>
+    <string name="err_msg_enter_item_description">Add description to the item</string>
+    <string name="err_msg_enter_stock_quantity">"Enter stock quantity "</string>
 
 
 </resources>
