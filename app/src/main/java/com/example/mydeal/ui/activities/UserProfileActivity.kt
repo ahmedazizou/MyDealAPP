@@ -99,7 +99,7 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener{
                         )
                         == PackageManager.PERMISSION_GRANTED
                     ) {
-                       // showErrorSnackBar("You already have the storage permission.", false)
+                        // showErrorSnackBar("You already have the storage permission.", false)
                         Constants.shopImagePicker(this)
                     } else {
 
@@ -123,7 +123,7 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener{
                         //upload image to  cloud
                         //make sure its not empty
                         if (mySelectedImageFileUri != null)
-                        FireStoreClass().uploadImagesToCloud(this,mySelectedImageFileUri)
+                            FireStoreClass().uploadImagesToCloud(this,mySelectedImageFileUri,Constants.USER_PROFILE_IMAGE)
                         else {
                             updateUserProfileDetails()
                         }
@@ -231,7 +231,7 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener{
                         Toast.makeText(
                             this@UserProfileActivity,
                             resources.getString(R.string.image_selection_failed),
-                        Toast.LENGTH_SHORT
+                            Toast.LENGTH_SHORT
                         ).show()
                     }
                 }

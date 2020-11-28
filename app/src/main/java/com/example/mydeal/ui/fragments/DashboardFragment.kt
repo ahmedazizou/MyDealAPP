@@ -5,12 +5,15 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import androidx.recyclerview.widget.GridLayoutManager
 
 
 import com.example.mydeal.R
 import com.example.mydeal.firestore.FireStoreClass
 import com.example.mydeal.models.Item
 import com.example.mydeal.ui.activities.SettingsActivity
+import com.example.mydeal.ui.adapters.DashboardItemsListAdapter
+import kotlinx.android.synthetic.main.fragment_dashboard.*
 
 class DashboardFragment : BaseFragment() {
 
@@ -57,9 +60,26 @@ class DashboardFragment : BaseFragment() {
     fun successDashboardItemsList(dashboardItemsList: ArrayList<Item>){
         hideProgressDialog()
 
-        for (i in dashboardItemsList) {
-            Log.i("item title",i.title)
+
+        if (dashboardItemsList.size > 0 ){
+            rv_dashboard_items.visibility = View.VISIBLE
+            tv_no_dashboard_items_found.visibility = View.GONE
+
+            //WE use grid layout
+            rv_dashboard_items.layoutManager = GridLayoutManager(activity, 2)
+            rv_dashboard_items.setHasFixedSize(true)
+
+            val adapter = DashboardItemsListAdapter(requireActivity(),dashboardItemsList)
+            rv_dashboard_items.adapter = adapter
+
+        } else{
+            rv_dashboard_items.visibility = View.GONE
+            tv_no_dashboard_items_found.visibility = View.VISIBLE
         }
+
+//        for (i in dashboardItemsList) {
+//            Log.i("item title",i.title)
+//        }
     }
 
     private fun getDashboardItemsList(){

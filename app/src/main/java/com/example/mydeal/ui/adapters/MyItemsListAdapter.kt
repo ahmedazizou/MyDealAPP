@@ -31,7 +31,7 @@ open class MyItemsListAdapter (
         if (holder is MyViewHolder) {
             GlideLoader(context).loadItemPicture(model.image_item,holder.itemView.iv_item_image)
             holder.itemView.tv_item_name.text = model.title
-            holder.itemView.tv_item_price.text = "$ ${model.price}"
+            holder.itemView.tv_item_price.text = "lv ${model.price}"
         }
     }
 
