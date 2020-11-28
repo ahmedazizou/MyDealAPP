@@ -4,10 +4,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mydeal.R
 import com.example.mydeal.firestore.FireStoreClass
 import com.example.mydeal.models.Item
 import com.example.mydeal.ui.activities.AddProductActivity
+import com.example.mydeal.ui.adapters.MyItemsListAdapter
+import kotlinx.android.synthetic.main.fragment_products.*
 
 class ProductsFragment : BaseFragment() {
 
@@ -32,8 +35,17 @@ class ProductsFragment : BaseFragment() {
     fun successItemsListFromFireStore(productsList: ArrayList<Item>) {
         hideProgressDialog()
 
-        for (i in productsList){
-            Log.i("Item Name",i.title)
+        if (productsList.size >0){
+            rv_my_items.visibility = View.VISIBLE
+            tv_no_products_found.visibility = View.GONE
+
+            rv_my_items.layoutManager = LinearLayoutManager(activity)
+            rv_my_items.setHasFixedSize(true)
+            val adapterItems = MyItemsListAdapter(requireActivity(),productsList)
+            rv_my_items.adapter = adapterItems
+        }else{
+            rv_my_items.visibility = View.GONE
+            tv_no_products_found.visibility = View.VISIBLE
         }
     }
 
