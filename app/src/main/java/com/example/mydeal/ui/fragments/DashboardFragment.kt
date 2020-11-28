@@ -1,22 +1,29 @@
-package com.example.mydeal.ui.activities.fragments
+package com.example.mydeal.ui.fragments
+
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.*
-import android.widget.TextView
-import androidx.fragment.app.Fragment
+
 
 import com.example.mydeal.R
+import com.example.mydeal.firestore.FireStoreClass
+import com.example.mydeal.models.Item
 import com.example.mydeal.ui.activities.SettingsActivity
 
-class DashboardFragment : Fragment() {
+class DashboardFragment : BaseFragment() {
 
-    // private lateinit var dashboardViewModel: DashboardViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //if we need to user option menu in fg we need to use it.
         setHasOptionsMenu(true)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getDashboardItemsList()
     }
 
     override fun onCreateView(
@@ -26,9 +33,6 @@ class DashboardFragment : Fragment() {
     ): View? {
         //dashboardViewModel =ViewModelProviders.of(this).get(DashboardViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_dashboard, container, false)
-        val textView: TextView = root.findViewById(R.id.text_dashboard)
-        // dashboardViewModel.text.observe(viewLifecycleOwner, Observer {
-        textView.text = "dashboard"
 
         return root
     }
@@ -39,7 +43,7 @@ class DashboardFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val id= item.itemId
+        val id = item.itemId
         when(id){
             R.id.action_settings -> {
                 //launch the sitting activity on click of action item
@@ -48,5 +52,19 @@ class DashboardFragment : Fragment() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    fun successDashboardItemsList(dashboardItemsList: ArrayList<Item>){
+        hideProgressDialog()
+
+        for (i in dashboardItemsList) {
+            Log.i("item title",i.title)
+        }
+    }
+
+    private fun getDashboardItemsList(){
+        showProgressDialog(resources.getString(R.string.loading))
+
+        FireStoreClass().getDashboardItemList(this@DashboardFragment)
     }
 }

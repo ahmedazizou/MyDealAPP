@@ -7,7 +7,7 @@
 
     <fragment
             android:id="@+id/navigation_dashboard"
-            android:name="com.example.mydeal.ui.activities.fragments.DashboardFragment"
+            android:name="com.example.mydeal.ui.fragments.DashboardFragment"
             android:label="@string/title_dashboard"
             tools:layout="@layout/fragment_products"/>
 

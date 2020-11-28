@@ -90,6 +90,7 @@
     <string name="no_items_added_yet">There is no items added at the moment</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="no_dashboard_item_found">No Item Found.</string>
 
 
 </resources>
