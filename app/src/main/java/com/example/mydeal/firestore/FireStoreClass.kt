@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
 import android.util.Log
+import androidx.fragment.app.Fragment
 import com.bumptech.glide.load.ImageHeaderParser
 import com.example.mydeal.models.Item
 import com.example.mydeal.ui.activities.fragments.LoginActivity
@@ -13,12 +14,14 @@ import com.example.mydeal.ui.activities.fragments.UserProfileActivity
 import com.example.mydeal.models.User
 import com.example.mydeal.ui.activities.AddProductActivity
 import com.example.mydeal.ui.activities.SettingsActivity
+import com.example.mydeal.ui.fragments.ProductsFragment
 import com.example.mydeal.utils.Constants
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import java.util.ArrayList
 
 
 class FireStoreClass {
@@ -223,5 +226,44 @@ class FireStoreClass {
                 )
             }
 
+    }
+
+    fun getProductsList(fragment: Fragment) {
+        // The collection name for PRODUCTS
+        myFirestore.collection(Constants.ITEMS)
+            .whereEqualTo(Constants.USER_ID, getCurrentUserId())
+            .get() // Will get the documents snapshots.
+            .addOnSuccessListener { document ->
+
+                // Here we get the list of boards in the form of documents.
+                Log.e("Items List", document.documents.toString())
+
+                // Here we have created a new instance for Products ArrayList.
+                val productsList: ArrayList<Item> = ArrayList()
+
+                // A for loop as per the list of documents to convert them into Products ArrayList.
+                for (i in document.documents) {
+
+                    val product = i.toObject(Item::class.java)
+                    product!!.item_id = i.id
+
+                    productsList.add(product)
+                }
+
+                when (fragment) {
+                    is ProductsFragment -> {
+                        fragment.successItemsListFromFireStore(productsList)
+                    }
+                }
+            }
+            .addOnFailureListener { e ->
+                // Hide the progress dialog if there is any error based on the base class instance.
+                when (fragment) {
+                    is ProductsFragment -> {
+                        fragment.hideProgressDialog()
+                    }
+                }
+                Log.e("Get Product List", "Error while getting product list.", e)
+            }
     }
 }

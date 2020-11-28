@@ -13,5 +13,5 @@ data class Item(
     val descriptor: String = "",
     val stock_quantity: String = "",
     val image_item: String = "",
-    val id: String = "",
+    var item_id: String = "",
 ):Parcelable

@@ -1,24 +1,40 @@
-package com.example.mydeal.ui.activities.fragments
+package com.example.mydeal.ui.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.*
-import android.widget.TextView
-import androidx.fragment.app.Fragment
-
 import com.example.mydeal.R
+import com.example.mydeal.firestore.FireStoreClass
+import com.example.mydeal.models.Item
 import com.example.mydeal.ui.activities.AddProductActivity
-import com.example.mydeal.ui.activities.SettingsActivity
-import com.example.mydeal.ui.fragments.BaseFragment
 
 class ProductsFragment : BaseFragment() {
 
-    //private lateinit var homeViewModel: HomeViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //if we need to user option menu in fg we need to use it.
         setHasOptionsMenu(true)
+    }
+
+    private fun getItemsListFromFireStore(){
+        showProgressDialog(resources.getString(R.string.loading))
+        FireStoreClass().getProductsList(this)
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        getItemsListFromFireStore()
+    }
+
+    fun successItemsListFromFireStore(productsList: ArrayList<Item>) {
+        hideProgressDialog()
+
+        for (i in productsList){
+            Log.i("Item Name",i.title)
+        }
     }
 
     override fun onCreateView(

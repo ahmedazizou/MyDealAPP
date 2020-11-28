@@ -13,7 +13,7 @@
 
     <fragment
             android:id="@+id/navigation_products"
-            android:name="com.example.mydeal.ui.activities.fragments.ProductsFragment"
+            android:name="com.example.mydeal.ui.fragments.ProductsFragment"
             android:label="@string/title_products"
             tools:layout="@layout/fragment_products"/>
 

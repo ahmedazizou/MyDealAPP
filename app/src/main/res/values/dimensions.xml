@@ -64,7 +64,8 @@
 
     <dimen name="add_item_header_image">200dp</dimen>
     <dimen name="add_product_icon">16dp</dimen>
-    <dimen name="no_data_found_textSize">20SP</dimen>
+
+
 
 
 </resources>

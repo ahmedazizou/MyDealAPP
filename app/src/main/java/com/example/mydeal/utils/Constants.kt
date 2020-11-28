@@ -27,6 +27,7 @@ object Constants {
     const val LAST_NAME: String = "lastName"
     const val PROFILE_STEPS: String = "profileSteps"
     const val ITEMS : String = "Items"
+    const val USER_ID:String = "userId"
 
     fun shopImagePicker(activity: Activity){
         // an intent for launching the image gallery
