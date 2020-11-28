@@ -210,6 +210,23 @@ class FireStoreClass {
             }
     }
 
+    fun deleteItem(fragment: ProductsFragment, itemId: String) {
+        myFirestore.collection(Constants.ITEMS)
+            .document(itemId)
+            .delete()
+            .addOnSuccessListener {
+
+                fragment.itemDeleteSuccess()
+            }
+            .addOnFailureListener { e ->
+                fragment.hideProgressDialog()
+
+                Log.e(fragment.requireActivity().javaClass.simpleName,
+                "error deleting item",e)
+
+            }
+    }
+
     fun uploadItemDetails(activity: AddProductActivity, itemInfo: Item){
         myFirestore.collection(Constants.ITEMS)
             .document()

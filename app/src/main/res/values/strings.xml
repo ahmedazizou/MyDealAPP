@@ -91,6 +91,11 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="no_dashboard_item_found">No Item Found.</string>
+    <string name="item_deleted">Item Deleted successfully</string>
+    <string name="delete_dialog">Delete</string>
+    <string name="delete_dialog_msg">Make Sure that you want delete this item</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 
 
 </resources>

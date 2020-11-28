@@ -1,5 +1,6 @@
 package com.example.mydeal.ui.fragments
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -23,11 +24,7 @@ class ProductsFragment : BaseFragment() {
     }
 
     fun deleteItem(itemId: String) {
-        // show a toast for deleting
-        Toast.makeText(
-            requireActivity(),
-            "dalate $itemId",Toast.LENGTH_SHORT
-        ).show()
+        AlertToDeleteItem(itemId)
     }
 
     private fun getItemsListFromFireStore(){
@@ -35,6 +32,34 @@ class ProductsFragment : BaseFragment() {
         FireStoreClass().getProductsList(this)
     }
 
+    private fun AlertToDeleteItem(itemId: String){
+        val builder = AlertDialog.Builder(requireActivity())
+        //set title and message for alert
+        builder.setTitle(resources.getString(R.string.delete_dialog))
+        builder.setMessage(resources.getString(R.string.delete_dialog_msg))
+        builder.setIcon(android.R.drawable.ic_dialog_alert)
+        // performing positive action
+        builder.setPositiveButton(resources.getString(R.string.yes)) {
+            dialogInterface, _ ->
+            showProgressDialog(resources.getString(R.string.loading))
+
+            FireStoreClass().deleteItem(this,itemId)
+            dialogInterface.dismiss()
+        }
+        // for negative action
+        builder.setNegativeButton(resources.getString(R.string.no)) {
+                dialogInterface, _ ->
+
+            dialogInterface.dismiss()
+        }
+        // Create the alert dialog
+        val alertDialog : AlertDialog = builder.create()
+        //set other dialog properties
+        alertDialog.setCancelable(false)
+        alertDialog.show()
+
+
+    }
 
     override fun onResume() {
         super.onResume()
@@ -56,6 +81,21 @@ class ProductsFragment : BaseFragment() {
             rv_my_items.visibility = View.GONE
             tv_no_products_found.visibility = View.VISIBLE
         }
+    }
+
+
+
+    fun itemDeleteSuccess(){
+        hideProgressDialog()
+
+        Toast.makeText(
+            requireActivity(),
+            resources.getString(R.string.item_deleted),
+            Toast.LENGTH_SHORT
+        ).show()
+
+        //get list items after delete one to refresh
+        getItemsListFromFireStore()
     }
 
     override fun onCreateView(
