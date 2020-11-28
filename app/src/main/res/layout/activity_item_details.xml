@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content">
 
             <ImageView
-                    android:id="@+id/iv_product_detail_image"
+                    android:id="@+id/iv_item_detail_image"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
                     android:background="@color/colorImageViewBG"
@@ -64,7 +64,7 @@
                     android:padding="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/iv_product_detail_image">
+                    app:layout_constraintTop_toBottomOf="@id/iv_item_detail_image">
 
                 <com.example.mydeal.utils.MyDealTextViewBold
                         android:id="@+id/tv_product_details_title"

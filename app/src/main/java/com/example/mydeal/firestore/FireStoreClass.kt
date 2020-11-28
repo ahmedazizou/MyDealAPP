@@ -12,6 +12,7 @@ import com.example.mydeal.ui.activities.fragments.RegisterActivity
 import com.example.mydeal.ui.activities.fragments.UserProfileActivity
 import com.example.mydeal.models.User
 import com.example.mydeal.ui.activities.AddProductActivity
+import com.example.mydeal.ui.activities.ItemDetailsActivity
 import com.example.mydeal.ui.activities.SettingsActivity
 import com.example.mydeal.ui.fragments.DashboardFragment
 import com.example.mydeal.ui.fragments.ProductsFragment
@@ -94,7 +95,6 @@ class FireStoreClass {
                 //to make sure we apply what is edited
                 editor.apply()
 
-
                 // Passing the result to the Login Activity.
                 when (activity) {
                     is LoginActivity -> {
@@ -103,10 +103,8 @@ class FireStoreClass {
                     }
                     is SettingsActivity -> {
                         activity.userDetailsSuccess(user)
-
                     }
                 }
-
             }
             .addOnFailureListener { e ->
                 // Hide the progress dialog if there is any error. And print the error in log.
@@ -210,6 +208,27 @@ class FireStoreClass {
             }
     }
 
+    fun getItemDetails(activity: ItemDetailsActivity, itemId: String) {
+
+        myFirestore.collection(Constants.ITEMS)
+            .document(itemId)
+            .get()
+            .addOnSuccessListener { document ->
+                Log.e(activity.javaClass.simpleName,document.toString())
+                val item = document.toObject(Item::class.java)
+
+                if (item != null) {
+                    activity.itemDetailsSuccess(item)
+                }
+
+            }
+            .addOnFailureListener { e ->
+                activity.hideProgressDialog()
+                Log.e(activity.javaClass.simpleName, "Error getting item details")
+
+            }
+    }
+
     fun deleteItem(fragment: ProductsFragment, itemId: String) {
         myFirestore.collection(Constants.ITEMS)
             .document(itemId)
@@ -282,6 +301,7 @@ class FireStoreClass {
                 Log.e("Get Product List", "Error while getting product list.", e)
             }
     }
+
     fun  getDashboardItemList(fragment: DashboardFragment) {
         myFirestore.collection(Constants.ITEMS)
             .get()
