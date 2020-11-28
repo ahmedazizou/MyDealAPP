@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mydeal.R
 import com.example.mydeal.firestore.FireStoreClass
@@ -19,6 +20,14 @@ class ProductsFragment : BaseFragment() {
         super.onCreate(savedInstanceState)
         //if we need to user option menu in fg we need to use it.
         setHasOptionsMenu(true)
+    }
+
+    fun deleteItem(itemId: String) {
+        // show a toast for deleting
+        Toast.makeText(
+            requireActivity(),
+            "dalate $itemId",Toast.LENGTH_SHORT
+        ).show()
     }
 
     private fun getItemsListFromFireStore(){
@@ -41,7 +50,7 @@ class ProductsFragment : BaseFragment() {
 
             rv_my_items.layoutManager = LinearLayoutManager(activity)
             rv_my_items.setHasFixedSize(true)
-            val adapterItems = MyItemsListAdapter(requireActivity(),productsList)
+            val adapterItems = MyItemsListAdapter(requireActivity(),productsList,this )
             rv_my_items.adapter = adapterItems
         }else{
             rv_my_items.visibility = View.GONE
