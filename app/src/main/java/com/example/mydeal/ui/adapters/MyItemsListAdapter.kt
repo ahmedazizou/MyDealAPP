@@ -1,13 +1,16 @@
 package com.example.mydeal.ui.adapters
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mydeal.R
 import com.example.mydeal.models.Item
+import com.example.mydeal.ui.activities.ItemDetailsActivity
 import com.example.mydeal.ui.fragments.ProductsFragment
+import com.example.mydeal.utils.Constants
 import com.example.mydeal.utils.GlideLoader
 import kotlinx.android.synthetic.main.itemlist_layout.view.*
 
@@ -38,6 +41,12 @@ open class MyItemsListAdapter (
             holder.itemView.ib_delete_item.setOnClickListener{
                 //need to delete item
                 fragment.deleteItem(model.item_id)
+            }
+
+            holder.itemView.setOnClickListener {
+                val intent = Intent(context,ItemDetailsActivity::class.java)
+                intent.putExtra(Constants.EXTRA_ITEM_ID, model.item_id)
+                context.startActivity(intent)
             }
         }
     }

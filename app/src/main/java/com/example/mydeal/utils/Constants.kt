@@ -26,7 +26,9 @@ object Constants {
     const val FIRST_NAME: String = "firstName"
     const val LAST_NAME: String = "lastName"
     const val PROFILE_STEPS: String = "profileSteps"
-    const val ITEMS : String = "Items"
+    const val ITEMS: String = "Items"
+    const val EXTRA_ITEM_ID: String = "extra_item_id"
+
     const val USER_ID:String = "userId"
 
     fun shopImagePicker(activity: Activity){

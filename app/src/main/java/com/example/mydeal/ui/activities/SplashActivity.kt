@@ -32,7 +32,7 @@ class SplashActivity : AppCompatActivity() {
         Handler().postDelayed(
         {
             //Launch the main activity after splash screen
-        startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
+        startActivity(Intent(this@SplashActivity, DashboardActivity::class.java))
             finish() // call this method when activity is done and close it
         },
         2500

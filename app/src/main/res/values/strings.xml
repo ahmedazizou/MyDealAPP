@@ -97,5 +97,9 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
 
+    <string name="ida_item_details">Item Details</string>
+    <string name="ida_item_description">Item Description</string>
+    <string name="ida_item_stock">Stock Quantity</string>
+
 
 </resources>
